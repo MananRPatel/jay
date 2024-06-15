@@ -4,8 +4,7 @@ const Auth = require("./auth");
 let userModel = require("../../model/user");
 
 const register = async (req, res) => {
-  const { name, username, password } = req.body;
-
+  const { name, username, password, authToken } = req.body;
 
   // Validate the input
   if (!name || !username || !password) {
@@ -14,7 +13,7 @@ const register = async (req, res) => {
       .json({ message: "Name, Username and password are required" });
   }
 
-  if (Auth.isUserExist(username)) {
+  if ((user = Auth.isUserExist(username))) {
     {
       return res.status(302).json({
         message: "User already exists, redirect to login",
@@ -23,11 +22,18 @@ const register = async (req, res) => {
     }
   }
 
+  let role = "user";
+
+  try {
+    const decoded = jwt.verify(authToken, "your_jwt_secret");
+    role = decoded.role;
+  } catch (e) {}
+
   const newUser = {
     id: Math.floor(Math.random() * 10000) + 1,
     username,
     name,
-    role: "user",
+    role,
     password,
   };
 
