@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 const cors = require('cors')
 const auth = require('./router/auth');
-const validator = require('./router/validator');
+const mySQLpool = require('./database/connection');
+//const organization = require('./router/organization');
 
 require('dotenv').config();
 const port = process.env.PORT || 3000
@@ -18,9 +19,12 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/auth',auth);
-app.use('/db',validator);
+app.use('/auth', auth);
+//app.use('/organization',organization);
 
-app.listen(port,()=>{
-console.log(` server running on http://localhost:${port}`);
-}); 
+mySQLpool.query('SELECT 1').then(() => {
+    app.listen(port, () => {
+        console.log(` server running on http://localhost:${port}`);
+    });
+})
+

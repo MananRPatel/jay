@@ -4,16 +4,16 @@ const Auth = require("./auth");
 let userModel = require("../../model/user");
 
 const register = async (req, res) => {
-  const { name, username, password, authToken } = req.body;
+  const { name, email, password, authToken } = req.body;
 
   // Validate the input
-  if (!name || !username || !password) {
+  if (!name || !email || !password) {
     return res
       .status(400)
-      .json({ message: "Name, Username and password are required" });
+      .json({ message: "Name, email and password are required" });
   }
 
-  if ((user = Auth.isUserExist(username))) {
+  if ((user = await Auth.isUserExist(email))) {
     {
       return res.status(302).json({
         message: "User already exists, redirect to login",
@@ -30,18 +30,17 @@ const register = async (req, res) => {
   } catch (e) {}
 
   const newUser = {
-    id: Math.floor(Math.random() * 10000) + 1,
-    username,
     name,
-    role,
+    email,
     password,
+    role
   };
 
-  userModel.addUser(newUser);
+  const id = await userModel.addUser(newUser);
 
   // Generate JWT token
   const token = jwt.sign(
-    { id: newUser.id, role: newUser.role },
+    { id, role },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_EXPIRES_IN,

@@ -2,17 +2,17 @@ require("dotenv").config;
 const jwt = require('jsonwebtoken');
 const Auth = require("./auth");
 
-const login = async (req,res)=>{
-    
-    const { username, password } = req.body;
+const login = async (req, res) => {
+
+    const { email, password } = req.body;
 
 
-    if (!(user=Auth.isUserExist(username))) {
-        return res.status(401).json({ message: 'Invalid username or password' });
+    if (!(user = await Auth.isUserExist(email))) {
+        return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    if (!(user.password === password && user.username === username)) {
-        return res.status(401).json({ message: 'Invalid username or password' });
+    if (!(user.password === password && user.email === email)) {
+        return res.status(401).json({ message: 'Invalid email or password' });
     }
 
     // Create JWT token
