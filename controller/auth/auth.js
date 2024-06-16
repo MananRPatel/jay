@@ -1,7 +1,7 @@
-const userModel = require("../../model/user");
+const userModel = require("../../model/userModel");
 
 const isUserExist = async (email) => {
-  return (await userModel.getUser(email));
+  return (await userModel.getUser(email)); 
 };
 
 const isAdmin = async (user) => {
