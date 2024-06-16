@@ -1,6 +1,6 @@
 require("dotenv").config;
 const Auth = require("../auth/auth");
-const organizationModel = require("../../model/organization");
+const organizationModel = require("../../model/organizationModel");
 
 const addEvents = async (req, res) => {
 
@@ -30,4 +30,4 @@ const addEvents = async (req, res) => {
 
 }
 
-module.exports = { addOrganization }; 
+module.exports = { addEvents }; 

@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors')
 const auth = require('./router/auth');
 const mySQLpool = require('./database/connection');
-//const organization = require('./router/organization');
+const organization = require('./router/organizations');
 
 require('dotenv').config();
 const port = process.env.PORT || 3000
@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', auth);
-//app.use('/organization',organization);
+app.use('/organizations',organization);
 
 mySQLpool.query('SELECT 1').then(() => {
     app.listen(port, () => {

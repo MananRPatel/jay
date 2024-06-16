@@ -5,6 +5,7 @@ let userModel = require("../../model/userModel");
 
 const register = async (req, res) => {
   const { name, email, password, authToken } = req.body;
+  let role = req.body.role;
 
   // Validate the input
   if (!name || !email || !password) {
@@ -22,12 +23,13 @@ const register = async (req, res) => {
     }
   }
 
-  let role = "user";
 
   try {
-    const decoded = jwt.verify(authToken, "your_jwt_secret");
-    role = decoded.role;
-  } catch (e) {}
+    const decode = jwt.verify(authToken, process.env.JWT_SECRET);
+    if (decode.role != "admin") role = "user";
+  } catch (e) {
+    role = "user";
+  }
 
   const newUser = {
     name,

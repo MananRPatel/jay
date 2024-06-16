@@ -9,8 +9,7 @@ const authenticateToken = async (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return res.sendStatus(403); // Invalid or expired token
-
-    req.token.user = user; // Save the decoded user information to the request object
+    req.token = user; // Save the decoded user information to the request object
     next(); // Proceed to the next middleware or route handler
   });
 };
