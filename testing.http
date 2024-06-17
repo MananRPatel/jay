@@ -6,9 +6,10 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-"name":"manan",
-"username":"master_cheif",
-"password":"123456"
+"name":"mummy",
+"email":"sonu@jay.com",
+"password":"123456",
+"role":"user"
 }
 
 ###
@@ -19,14 +20,109 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-"username":"master_cheif",
+"email":"sonu@jay.com",
 "password":"123456"
 }
 
 ###
 
 
-# Check all users list
+# add manager 
 
-GET http://localhost:3000/db/user
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+"name":"dad",
+"email":"pappa@manager2.com",
+"password":"123456",
+"authToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzE4NTcwMzI3LCJleHAiOjE3MTg2NTY3Mjd9.F6C4DfQ7dFy5fRclazDFh9Aud0UbWxMFB_dYswrrHr0",
+"role": "manager"
+}
+
+
+###
+
+
+# add organization
+
+POST http://localhost:3000/organizations
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzE4NTcwMzI3LCJleHAiOjE3MTg2NTY3Mjd9.F6C4DfQ7dFy5fRclazDFh9Aud0UbWxMFB_dYswrrHr0
+Content-Type: application/json
+
+{
+"name":"iith",
+"managerID":7,
+"location":"india",
+"description":"iith campus2"
+}
+
+
+###
+
+
+# get all info of organization
+
+GET http://localhost:3000/organizations
+
+###
+
+# join organization by user 
+
+PUT http://localhost:3000/organizations
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6InVzZXIiLCJpYXQiOjE3MTg1NzcwMDYsImV4cCI6MTcxODY2MzQwNn0.qq0ZXOJAVnchsOsl74TjuAxmkItXD0UaOiEZelHCxq0
+Content-Type: application/json
+
+{
+"orgID":2
+}
+
+
+###
+
+
+# get all info of organization by user
+
+GET http://localhost:3000/organizations/2
+
+###
+
+
+# add event by Manager
+
+### manager token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwicm9sZSI6Im1hbmFnZXIiLCJpYXQiOjE3MTg1ODA0NTQsImV4cCI6MTcxODY2Njg1NH0.SGN3zl67gEnX1PEJXfRLyrthqj3aR2oJkQbLEoqkOMU
+###  admin token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzE4NTgzMTQ3LCJleHAiOjE3MTg2Njk1NDd9.1cp84WvWv_quk3FJknL67yzUkAfkKAltMwlUEd1RbGU
+
+POST http://localhost:3000/organizations/events
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwicm9sZSI6Im1hbmFnZXIiLCJpYXQiOjE3MTg1ODA0NTQsImV4cCI6MTcxODY2Njg1NH0.SGN3zl67gEnX1PEJXfRLyrthqj3aR2oJkQbLEoqkOMU
+Content-Type: application/json
+
+{
+"name":"iith",
+"date":"12-06-2024",
+"location":"india",
+"description":"iith campus2",
+"orgID":1
+}
+
+
+###
+
+#get event
+
+GET http://localhost:3000/organizations/events/1
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwicm9sZSI6Im1hbmFnZXIiLCJpYXQiOjE3MTg1ODA0NTQsImV4cCI6MTcxODY2Njg1NH0.SGN3zl67gEnX1PEJXfRLyrthqj3aR2oJkQbLEoqkOMU
+
+
+###
+
+# join organization by user 
+
+PUT http://localhost:3000/organizations/events
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzE4NTgzMTQ3LCJleHAiOjE3MTg2Njk1NDd9.1cp84WvWv_quk3FJknL67yzUkAfkKAltMwlUEd1RbGU
+Content-Type: application/json
+
+{
+"eventID":1
+}
 
