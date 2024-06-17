@@ -55,5 +55,18 @@ const joinEvent = async (data) => {
 
 }
 
+const isValidEventManager = async (eventID,usrID)=>{
+    try {
+        const result = await connection.query(
+            "SELECT organization.managerID FROM organization where organization.ID = (select event.orgID from event where event.ID=?)",[eventID]
+        );
+        console.log('isValidEventManager by org:',result[0]);
+        return result[0]==usrID;
 
-module.exports = { addEvent,getEvents,joinEvent}
+    } catch (error) {
+        throw error; // Throw any errors encountered during the query
+    } 
+}
+
+
+module.exports = { addEvent,getEvents,joinEvent,isValidEventManager}
