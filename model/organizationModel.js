@@ -50,6 +50,21 @@ const getOrganizationsByUser = async (id)=>{
     
 }
 
+const getOrganizationsByManager = async (id)=>{
+
+    try {
+        const result = await connection.query(
+            "SELECT * FROM organization where managerID=?;",[id]
+        );
+        console.log('mananger by org:',result[0]);
+        return result[0];
+
+    } catch (error) {
+        throw error; // Throw any errors encountered during the query
+    } 
+    
+}
+
 
 
 const joinOrganization = async (data)=>{
@@ -67,8 +82,33 @@ const joinOrganization = async (data)=>{
         throw error; // Throw any errors encountered during the query
     } 
 
+}
 
+const isOrganizationJointByUser = async (usrID,orgID) =>{
+    try {
+        const result = await connection.query(
+            "SELECT * FROM orgxusr where orgID=? and usrID=?;",[orgID,usrID]
+        );
+        console.log('userxorg by org:',result[0]);
+        return result[0].length > 0;
+
+    } catch (error) {
+        throw error; // Throw any errors encountered during the query
+    } 
+}
+
+const isEventOrganizationJointByUser = async (usrID,eventID) =>{
+    try {
+        const result = await connection.query(
+            "SELECT orgxusr.* FROM orgxusr where orgxusr.orgID= (select event.orgID from event where event.ID=?) and orgxusr.usrID=?;",[eventID,usrID]
+        );
+        console.log('userxorg by org:',result[0]);
+        return result[0].length > 0;
+
+    } catch (error) {
+        throw error; // Throw any errors encountered during the query
+    } 
 }
 
 
-module.exports = {addOrganization,getOrganizations,joinOrganization,getOrganizationsByUser}
+module.exports = {addOrganization,getOrganizations,joinOrganization,getOrganizationsByUser,getOrganizationsByManager,isOrganizationJointByUser,isEventOrganizationJointByUser}

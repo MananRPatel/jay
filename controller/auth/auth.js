@@ -8,4 +8,8 @@ const isAdmin = (user) => {
   return user.role == "admin";
 };
 
-module.exports = { isUserExist,isAdmin };
+const isValidManager = (organization) => {
+  return organization.length>0
+}
+
+module.exports = { isUserExist,isAdmin,isValidManager };

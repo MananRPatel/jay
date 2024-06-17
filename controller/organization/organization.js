@@ -35,7 +35,6 @@ const getOrganizations = async (req, res) => {
 }
 
 const getOrganizationsByUser = async (req, res) => {
-    console.log(req.params.id+"sdsdsdsdsdsdsd");
     return res.status(201).json({ data: await organizationModel.getOrganizationsByUser(req.params.id) })
 }
 
